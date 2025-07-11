@@ -36,7 +36,7 @@ def main():
 
         # update ctrs
         turn_counter += 1
-        current_player = 1 if current_player = 2 else 2
+        current_player = 1 if current_player == 2 else 2
 
         # NOTE: introduce press 'q' to quit option when clearly reached a draw before exhausting all boxes?
 
