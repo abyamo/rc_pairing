@@ -1,13 +1,16 @@
 # version 2 - working cli input vs cli input
 
+# version 2 - working cli input vs cli input
+
 from typing import List
 
 def main():
     gameGrid = [None] * 9
     current_player = 1 # player 1 - X, player 2 - O
     turn_counter = 0
+    game_won = False
 
-    print("Welcome to a new round of tic-tac-toe!")
+    print("Welcome to a new round of Tic tac toe!")
 
     # max 9-turn game initiated
     while turn_counter < 9:
@@ -22,20 +25,25 @@ def main():
         
         # updates gameGrid [X or O] depending on curr_player
         if current_player == 1:
-            gameGrid[int(turn_input-1)] = "X"
+            gameGrid[int(turn_input)-1] = "X"
         else: 
-            gameGrid[int(turn_input-1)] = "O"
+            gameGrid[int(turn_input)-1] = "O"
 
         # checks if winning combo hit
-        if winCheck(gameGrid) is True:
+        if winCheck(gameGrid):
+            game_won = True
+            printGrid(gameGrid) # NOTE: think about way to cross out winning streak in CLI? 
             print(f"Player {current_player} won!")
             break
 
         # update ctrs
         turn_counter += 1
-        current_player = 1 if turn_counter % 2 == 0 else 2
-        
-    print("Draw!")
+        current_player = 1 if current_player = 2 else 2
+
+        # NOTE: introduce press 'q' to quit option when clearly reached a draw before exhausting all boxes?
+
+    if not game_won:    
+        print("Draw!")
 
 def printGrid(gameGrid: List) -> None:
     display = []
@@ -54,11 +62,16 @@ def isValidInput(turn_input, gameGrid: List) -> bool:
         return False
 
 def winCheck(gameGrid: List) -> bool:  
-    # NOTE: For checking - instead of duplicating for X and O, check if all three positions in a winning combo contain the same non-null symbol -- have to do for loop thru gameGrid to see if satisfies 8 times (# of rows + # of cols + 2 for diag) - more optimal way?
-    # NOTE: see if more optimal way than for loop thru all 8 winning combos > bit masking??
+    # NOTE: see if more optimal way than for loop thru all winning combos (# of rows + # of cols + 2 for diag), esp for n*n scaled game > bit masking??
+    winning_combos = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]]
 
-    #     return True - if win (no player)
-    # return False - if no win
-    pass
+    for combo in winning_combos:
+        if (gameGrid[combo[0]] is not None and 
+            gameGrid[combo[0]] == gameGrid[combo[1]] == gameGrid[combo[2]]):
+            return True
+    return False
 
 main()
