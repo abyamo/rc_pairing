@@ -2,7 +2,7 @@
 
 from typing import List
 
-def main():
+def play():
     gameGrid = [None] * 9
     current_player = 1 # player 1 - X, player 2 - O
     turn_counter = 0
@@ -72,4 +72,4 @@ def winCheck(gameGrid: List) -> bool:
             return True
     return False
 
-main()
+play()
