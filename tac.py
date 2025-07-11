@@ -1,7 +1,5 @@
 # version 2 - working cli input vs cli input
 
-# version 2 - working cli input vs cli input
-
 from typing import List
 
 def main():
@@ -10,7 +8,7 @@ def main():
     turn_counter = 0
     game_won = False
 
-    print("Welcome to a new round of Tic tac toe!")
+    print("Welcome to a new round of tic-tac-toe!")
 
     # max 9-turn game initiated
     while turn_counter < 9:
