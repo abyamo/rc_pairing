@@ -1,14 +1,22 @@
-# version 3 - cli input vs computer?!
+# version 3 - cli input vs computer?! added support for a rand_ai player
+
+'''
+Next steps: 
+- Reorganizing code for n*n grid
+- Look into bitmasking implementation for win_check of n*n grid
+'''
 
 from typing import List
+import random
 
-def main():
+def play():
     gameGrid = [None] * 9
     current_player = 1 # player 1 - X, player 2 - O
     turn_counter = 0
     game_won = False
 
     print("Welcome to a new round of tic-tac-toe!")
+    game_mode = input("Would you like to play against a computer (C) or a friend (F)?") #TODO: Input validation
 
     # max 9-turn game initiated
     while turn_counter < 9:
@@ -16,10 +24,14 @@ def main():
         # prints grid
         printGrid(gameGrid)
 
-        # gets player input for turn
-        turn_input = input(f"Player {current_player}, enter a position 1-9: ")
-        while not isValidInput(turn_input, gameGrid):
-            turn_input = input(f"Invalid input! Try again: ")
+        if current_player == 1 or game_mode == "F":
+            # gets player input for turn
+            turn_input = input(f"Player {current_player}, enter a position 1-9: ")
+            while not isValidInput(turn_input, gameGrid):
+                turn_input = input(f"Invalid input! Try again: ")
+        else:
+            # gets computer input for turn
+            turn_input = getRandomMove(gameGrid) # turn_input
         
         # updates gameGrid [X or O] depending on curr_player
         if current_player == 1:
@@ -42,6 +54,15 @@ def main():
 
     if not game_won:    
         print("Draw!")
+
+def getRandomMove(gameGrid) -> int:
+    null_indices = []
+    # determine indices of null spots in array
+    for idx, cell in enumerate(gameGrid):
+        if cell is None:
+            null_indices.append(idx)
+    # randomly choose between them & return that as turn_input
+    return random.choice(null_indices) + 1
 
 def printGrid(gameGrid: List) -> None:
     display = []
@@ -72,4 +93,4 @@ def winCheck(gameGrid: List) -> bool:
             return True
     return False
 
-main()
+play()
